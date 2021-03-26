@@ -1,12 +1,12 @@
 <template>
   <nav class="common-nav">
-    <router-link to="/money">
-      <icon name="money"/>
-      <span>记一笔</span>
-    </router-link>
     <router-link to="/labels">
       <icon name="labels"/>
       <span>标签</span>
+    </router-link>
+    <router-link to="/money">
+      <icon name="money"/>
+      <span>记一笔</span>
     </router-link>
     <router-link to="/statistics">
       <icon name="statistics"/>

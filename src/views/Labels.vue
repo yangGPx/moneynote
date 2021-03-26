@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <layout>
         Labels
-    </div>
+    </layout>
 </template>
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
