@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <layout>
     Money
-  </div>
+  </layout>
 </template>
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
