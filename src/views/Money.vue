@@ -1,5 +1,5 @@
 <template>
-  <layout>
+  <layout classPrefix="money">
     <tags />
     <comment />
     <tabs />
@@ -23,5 +23,9 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .money-content.content{
+    display: flex;
+    flex-direction: column;
+  }
 </style>

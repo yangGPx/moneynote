@@ -1,21 +1,21 @@
 <template>
   <div class="number-pad">
     <p class="input-wrapper">
-      <input value="0"/>
+      <input v-model="output"/>
     </p>
-    <div class="number-btn-list">
+    <div class="number-btn-list" @click="actionHanlder">
       <button>7</button>
       <button>8</button>
       <button>9</button>
-      <button>删除</button>
+      <button @click.stop="delLastOne">删除</button>
       <button>4</button>
       <button>5</button>
       <button>6</button>
-      <button>清空</button>
+      <button @click.stop="empty">清空</button>
       <button>3</button>
       <button>2</button>
       <button>1</button>
-      <button class="ok-key">OK</button>
+      <button class="ok-key" @click.stop="okFn">OK</button>
       <button class="zero-key">0</button>        
       <button>.</button>        
     </div>
@@ -28,7 +28,30 @@
 
   @Component
   export default class NumberPad extends Vue{
-    
+    output = '';
+    actionHanlder(event: MouseEvent){
+      const target = event.target as HTMLButtonElement;
+      const input:string = target.textContent || ''; // 这里得增加一个默认值，否则ts认为liEl.textContent 可能为null
+      
+      const { output } = this;
+      if((output === '0' && input === '0') || (output.includes('.') && input === '.')) {
+        return;
+      }
+      this.output = output === '0' && input !== '.' ? input : `${output}${input}`;
+    }
+
+    empty() {
+      this.output = '0'
+    }
+
+    delLastOne() {
+      let output = this.output.slice(0, -1);
+      this.output = output.length > 0 ? output : '0';
+    }
+
+    okFn() {
+      console.log(this.output)
+    }
   }
 </script>
 
@@ -43,8 +66,8 @@
     .number-btn-list{
       button{
         border: 0;width:25%;height: 64px;float: left;
-        font-size: 16px;
-                &:nth-child(1){
+        font-size: 16px;outline: none;
+        &:nth-child(1){
           background: #F2F2F2;
         }
         &:nth-child(2),&:nth-child(5){

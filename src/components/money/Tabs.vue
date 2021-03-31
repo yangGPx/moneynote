@@ -1,7 +1,7 @@
 <template>
-  <ul class="tabs">
-    <li>支出</li>
-    <li>收入</li>
+  <ul :class="`tabs ${active}-tab`">
+    <li @click="active = 'out'">支出</li>
+    <li @click="active = 'in'">收入</li>
   </ul>
 </template>
 
@@ -11,7 +11,7 @@
 
   @Component
   export default class Tabs extends Vue{
-    
+    active = 'out';
   }
 </script>
 
@@ -26,6 +26,10 @@
     &::before{
       content: '';display: block;position: absolute;
       bottom: 0;left: 0;height: 3px;width: 50%;background: #333;
+      transition: 0.25s;
+    }
+    &.in-tab::before{
+      left: 50%;
     }
   }
 </style>

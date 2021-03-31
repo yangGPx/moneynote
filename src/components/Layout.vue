@@ -1,13 +1,13 @@
 <template>
-  <div class="layout">
-    <div class="content">
+  <div :class="`layout ${classPrefix ? `${classPrefix}-layout` : ''}`">
+    <div :class="`content ${classPrefix ? `${classPrefix}-content` : ''}`">
       <slot></slot>
     </div>
     <common-nav />
   </div>
 </template>
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator'
+  import { Vue, Component, Prop } from 'vue-property-decorator'
   import CommonNav from '@/components/CommonNav.vue';
 
   @Component({
@@ -16,7 +16,7 @@
     }
   })
   export default class Layout extends Vue{
-    
+    @Prop(String) classPrefix: string | undefined;
   }
 </script>
 

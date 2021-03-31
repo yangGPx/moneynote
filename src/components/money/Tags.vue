@@ -25,7 +25,8 @@
 
 <style lang="scss" scoped>
   .tags{
-    flex-grow: 1;padding: 16px 20px;
+    flex-grow: 1;padding: 16px 20px;display: flex;
+    flex-direction: column;justify-content: flex-end;
     .tag-list{
       li{
         display: inline-block;width: 50px;height: 24px;
