@@ -7,7 +7,7 @@
         @click="toggle(item)">{{ item }}</li>
     </ul>
     <div class="add-tag">
-      <span>新增标签</span>
+      <span @click="createTag">新增标签</span>
     </div>
   </div>
 </template>
@@ -21,19 +21,22 @@
     @Prop({ default: [] }) dataSource!:string[];
     @Prop({ default: [] }) value!: string[];
     
-    selectedList: string[] = this.value;
     toggle(input: string){
-      const index:number = this.selectedList.indexOf(input);
+      const index:number = this.value.indexOf(input);
+      const tempArr = [...this.value];
       if (index > -1) {
-        this.selectedList.splice(index, 1);
+        tempArr.splice(index, 1);
       } else {
-        this.selectedList.push(input);
+        tempArr.push(input);
       }
-      this.$emit('update:value', [...this.selectedList]);
+      this.$emit('update:value', [...tempArr]);
     }
     active(input:string){
-      const index:number = this.selectedList.indexOf(input);
+      const index:number = this.value.indexOf(input);
       return index > -1;
+    }
+
+    createTag() {
     }
   }
 </script>

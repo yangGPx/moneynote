@@ -53,6 +53,7 @@
 
     okFn() {
       this.$emit('update:value', parseFloat(this.output));
+      this.$emit('submit');
       this.output = '0';
     }
   }
