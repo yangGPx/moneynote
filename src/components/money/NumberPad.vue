@@ -24,11 +24,13 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
+  import { Component, Prop } from 'vue-property-decorator'
 
   @Component
   export default class NumberPad extends Vue{
-    output = '';
+    @Prop({ default: 0 }) value!: number | undefined;
+
+    output = `${this.value || 0}`;
     actionHanlder(event: MouseEvent){
       const target = event.target as HTMLButtonElement;
       const input:string = target.textContent || ''; // 这里得增加一个默认值，否则ts认为liEl.textContent 可能为null
@@ -50,7 +52,8 @@
     }
 
     okFn() {
-      console.log(this.output)
+      this.$emit('update:value', parseFloat(this.output));
+      this.output = '0';
     }
   }
 </script>

@@ -1,17 +1,21 @@
 <template>
   <label class="comments">
-    备注 
-    <input placeholder="在这里添加备注"/>
+    备注
+    <input placeholder="在这里添加备注" @input="commentFn"/>
   </label>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
+  import { Component, Prop } from 'vue-property-decorator'
 
   @Component
   export default class Comment extends Vue{
-    
+    @Prop({ default: '' }) value:string|undefined;
+    commentFn(event: KeyboardEvent) {
+      const target = event.target as HTMLInputElement;
+      this.$emit('update:value', target.value);
+    }
   }
 </script>
 

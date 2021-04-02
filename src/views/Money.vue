@@ -1,9 +1,9 @@
 <template>
   <layout classPrefix="money">
-    <tags />
-    <comment />
-    <tabs />
-    <number-pad />
+    <tags :data-source="tagList" :value.sync="record.tags"/>
+    <comment :value.sync="record.notes"/>
+    <tabs :value.sync="record.type"/>
+    <number-pad :value.sync="record.amount"/>
   </layout>
 </template>
 <script lang="ts">
@@ -13,13 +13,26 @@
   import Comment from '@/components/money/Comment.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
 
+  type record = {
+    tags: string[],
+    notes: string,
+    type: string,
+    amount: number,
+  }
+
   @Component({
     components: {
       Tags,Tabs,Comment,NumberPad
     }
   })
   export default class Money extends Vue{
-    
+    tagList: string[] = ['餐饮','购物', '日用', '交通', '水果'];
+    record: record = {
+      tags: [],
+      notes: '',
+      type: 'out',
+      amount: 0,
+    }
   }
 </script>
 

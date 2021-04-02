@@ -1,17 +1,21 @@
 <template>
-  <ul :class="`tabs ${active}-tab`">
-    <li @click="active = 'out'">支出</li>
-    <li @click="active = 'in'">收入</li>
+  <ul :class="`tabs ${value}-tab`">
+    <li @click="changeActive('out')">支出</li>
+    <li @click="changeActive('in')">收入</li>
   </ul>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component } from 'vue-property-decorator'
+  import { Component, Prop } from 'vue-property-decorator'
 
   @Component
   export default class Tabs extends Vue{
-    active = 'out';
+    @Prop({ default: 'out' }) value!: string;
+    
+    changeActive (flag: string) {
+      this.$emit('update:value', flag);
+    }
   }
 </script>
 
