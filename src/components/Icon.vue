@@ -22,5 +22,6 @@
 <style lang="scss" scoped>
   svg{
     width: 20px;height: 20px;
+    fill: inherit;
   }
 </style>
