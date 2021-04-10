@@ -24,7 +24,7 @@
   .layout{
     display: flex;flex-direction: column;height:100vh;
     .content{
-      flex-grow: 1;
+      flex-grow: 1;background: #e5e5e5;
     }
   }
 </style>

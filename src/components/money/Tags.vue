@@ -1,13 +1,13 @@
 <template>
   <div class="tags">
     <ul class="tag-list">
-      <li v-for="(item, index) in dataSource"
+      <li v-for="item in dataSource"
         :class="{active: active(item)}"
-        :key="index"
+        :key="item"
         @click="toggle(item)">{{ item }}</li>
     </ul>
     <div class="add-tag">
-      <span @click="createTag">新增标签</span>
+      <span @click="addTag">新增标签</span>
     </div>
   </div>
 </template>
@@ -15,6 +15,9 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Component, Prop } from 'vue-property-decorator'
+  import tagModel from '@/model/TagListModel'
+
+  tagModel.fetch()
 
   @Component
   export default class Tags extends Vue{
@@ -36,7 +39,13 @@
       return index > -1;
     }
 
-    createTag() {
+    addTag(){
+        let name = window.prompt('新增一个标签') || '';
+        if (tagModel.createTag(name)) {
+          window.alert('创建成功');
+        } else {
+          window.alert('该标签已存在');
+        }
     }
   }
 </script>
@@ -45,6 +54,7 @@
   .tags{
     flex-grow: 1;padding: 16px 20px;display: flex;
     flex-direction: column;justify-content: flex-end;
+    background: #fff;
     .tag-list{
       li{
         display: inline-block;width: 50px;height: 24px;

@@ -12,7 +12,8 @@
   import Tabs from '@/components/money/Tabs.vue';
   import Comment from '@/components/money/Comment.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
-  import recordModel from '@/model/RecordListModel'
+  import { recordFetch, recordClone, recordSave } from '@/model/RecordListModel'
+  import tagModel from '@/model/TagListModel'
 
   @Component({
     components: {
@@ -20,18 +21,21 @@
     }
   })
   export default class Money extends Vue{
-    tagList: string[] = ['餐饮','购物', '日用', '交通', '水果'];
-    recordList: RecordItem[] = recordModel.fetch();
+    tagList: string[] = tagModel.data;
+    recordList: RecordItem[] = recordFetch();
     record: RecordItem = {
       tags: [],
       notes: '',
       type: 'out',
       amount: 0,
+      createTime: Date()
     };
 
     onSubmit(): void {
-      this.recordList.push(recordModel.clone(this.record));
-      this.intRecord();
+      if (this.record.amount !== 0) {
+        this.recordList.push(recordClone(this.record));
+        this.intRecord();
+      }
     }
 
     intRecord():void {
@@ -40,12 +44,13 @@
         notes: '',
         type: 'out',
         amount: 0,
+        createTime: Date()
       }
     }
 
     @Watch('recordList')
     saveRecordList(value: RecordItem[]): void{
-      recordModel.save(value);
+      recordSave(value);
     }
   }
 </script>

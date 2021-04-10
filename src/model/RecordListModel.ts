@@ -1,18 +1,23 @@
-const storageKeyName = 'recordList';
+import { getItem, setItem } from './util'
 
-const model = {
-  clone(value: RecordItem):RecordItem {
-    return JSON.parse(JSON.stringify(value))
-  },
+const defaultKeyName = 'recordList';
 
-  fetch():RecordItem[] {
-    const list = JSON.parse(window.localStorage.getItem(storageKeyName) || '[]') as RecordItem[];
-    return list;
-  },
-
-  save(value: RecordItem[]):void {
-    window.localStorage.setItem(storageKeyName, JSON.stringify(value))
-  }
+function recordClone(value: RecordItem):RecordItem {
+  return JSON.parse(JSON.stringify(value))
 }
 
-export default model;
+function recordFetch():RecordItem[] {
+  const list = getItem(defaultKeyName) || [] as RecordItem[];
+  
+  return list;
+}
+
+function recordSave(value: RecordItem[]):void {
+  setItem(defaultKeyName, value)
+}
+
+export {
+  recordClone,
+  recordFetch,
+  recordSave
+}

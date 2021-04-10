@@ -4,4 +4,5 @@
     notes: string,
     type: string,
     amount: number,
+    createTime: string
   } 
