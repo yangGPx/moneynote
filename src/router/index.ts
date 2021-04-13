@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "Labels" */ '../views/Labels.vue')
   },
   {
+    path: '/labels/edit/:id',
+    name: 'LabelsEdit',
+    component: () => import(/* webpackChunkName: "LabelsEdit" */ '../views/LabelEdit.vue')
+  },
+  {
     path: '/statistics',
     name: 'statistics',
     component: () => import(/* webpackChunkName: "statistics" */ '../views/Statistics.vue')

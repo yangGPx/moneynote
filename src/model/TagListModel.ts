@@ -1,13 +1,12 @@
 import { getItem, setItem } from './util'
 
 const defaultKeyName = 'tagList';
-const mockData = ['餐饮','购物', '日用', '交通', '水果'];
 
 type tagModel = {
   data: string[],
   fetch: () => string[],
   save: () => void,
-  createTag: (name:string) => boolean,
+  createTag: (name:string) => 'success' | 'duplicated' | 'empty',
 }
 
 const model: tagModel= {
@@ -22,12 +21,13 @@ const model: tagModel= {
   },
 
   createTag(name) {
+    if(name.trim().length === 0) return 'empty';
     if (this.data.indexOf(name) > -1) {
-      return false;
+      return 'duplicated';
     }
     this.data.push(name);
     this.save()
-    return true;
+    return 'success';
   },
 
 }

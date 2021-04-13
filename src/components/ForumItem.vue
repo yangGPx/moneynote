@@ -1,5 +1,5 @@
 <template>
-  <label class="comments">
+  <label class="forum-item">
     备注
     <input placeholder="在这里添加备注" @input="commentFn"/>
   </label>
@@ -10,7 +10,7 @@
   import { Component, Prop } from 'vue-property-decorator'
 
   @Component
-  export default class Comment extends Vue{
+  export default class ForumItem extends Vue{
     @Prop({ default: '' }) value:string|undefined;
     commentFn(event: KeyboardEvent) {
       const target = event.target as HTMLInputElement;
@@ -20,8 +20,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .comments{
-    padding: 10px 20px;background: #f7f4f4;display: flex;
+  .forum-item{
+    padding: 8px 20px;background: #f7f4f4;display: flex;
     align-items: center;
     input{
       margin-left: 15px;padding: 10px 5px;border:0;

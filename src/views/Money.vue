@@ -1,7 +1,7 @@
 <template>
   <layout classPrefix="money">
     <tags :data-source="tagList" :value.sync="record.tags"/>
-    <comment :value.sync="record.notes"/>
+    <forum-item :value.sync="record.notes"/>
     <tabs :value.sync="record.type"/>
     <number-pad :value.sync="record.amount" @submit="onSubmit"/>
   </layout>
@@ -10,14 +10,14 @@
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import Tags from '@/components/money/Tags.vue';
   import Tabs from '@/components/money/Tabs.vue';
-  import Comment from '@/components/money/Comment.vue';
+  import ForumItem from '@/components/ForumItem.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
   import { recordFetch, recordClone, recordSave } from '@/model/RecordListModel'
   import tagModel from '@/model/TagListModel'
 
   @Component({
     components: {
-      Tags,Tabs,Comment,NumberPad
+      Tags,Tabs,ForumItem,NumberPad
     }
   })
   export default class Money extends Vue{

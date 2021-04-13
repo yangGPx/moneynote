@@ -41,10 +41,10 @@
 
     addTag(){
         let name = window.prompt('新增一个标签') || '';
-        if (tagModel.createTag(name)) {
-          window.alert('创建成功');
-        } else {
+        if (tagModel.createTag(name) === 'duplicated') {
           window.alert('该标签已存在');
+        } else {
+          window.alert('创建成功');
         }
     }
   }
