@@ -5,7 +5,7 @@
       <div class="title">编辑标签</div>
     </nav>
     <div class="edit-label-content">
-      <forum-item />
+      <forum-item field-name="标签名" placeholder="在此处输入标签名" :value="tag && tag.name"/>
     </div>
   </layout>
 </template>
@@ -14,6 +14,7 @@
   import Vue from 'vue'
   import { Component } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
+  import TagModel from '@/model/TagListModel'
 
   @Component({
     components: {
@@ -21,8 +22,14 @@
     }
   })
   export default class LabelEdit extends Vue{
+    tag?: Tag = undefined;
     goBack() {
       this.$router.back()
+    }
+
+    created() {
+      const { id } = this.$route.params;
+      this.tag = TagModel.getOneById(id)
     }
   }
 </script>

@@ -2,9 +2,9 @@
   <div class="tags">
     <ul class="tag-list">
       <li v-for="item in dataSource"
-        :class="{active: active(item)}"
-        :key="item"
-        @click="toggle(item)">{{ item }}</li>
+        :class="{active: active(item.name)}"
+        :key="item.id"
+        @click="toggle(item.name)">{{ item.name }}</li>
     </ul>
     <div class="add-tag">
       <span @click="addTag">新增标签</span>
@@ -40,12 +40,14 @@
     }
 
     addTag(){
-        let name = window.prompt('新增一个标签') || '';
-        if (tagModel.createTag(name) === 'duplicated') {
-          window.alert('该标签已存在');
-        } else {
-          window.alert('创建成功');
-        }
+      let name = window.prompt('新增一个标签') || '';
+      name = name.trim()
+      if (name.length === 0) return;
+      if (tagModel.createTag(name) === 'duplicated') {
+        window.alert('该标签已存在');
+      } else {
+        window.alert('创建成功');
+      }
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <label class="forum-item">
-    备注
-    <input placeholder="在这里添加备注" @input="commentFn"/>
+    {{ fieldName }}
+    <input :placeholder="placeholder" @input="commentFn" :value="value"/>
   </label>
 </template>
 
@@ -12,6 +12,9 @@
   @Component
   export default class ForumItem extends Vue{
     @Prop({ default: '' }) value:string|undefined;
+    @Prop({ default: '备注' }) fieldName!: string;
+    @Prop({ default: '' }) placeholder ?: string;
+
     commentFn(event: KeyboardEvent) {
       const target = event.target as HTMLInputElement;
       this.$emit('update:value', target.value);

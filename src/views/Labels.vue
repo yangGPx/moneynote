@@ -1,8 +1,8 @@
 <template>
     <layout classPrefix="labels">
         <ul class="tag-list">
-            <li v-for="item in tagList" :key="item" @click="goDump(item)">
-                {{ item }}
+            <li v-for="item in tagList" :key="item.id" @click="goDump(item)">
+                {{ item.name }}
                 <icon name="right"/>
             </li>
         </ul>
@@ -24,7 +24,7 @@
         }
     })
     export default class Labels extends Vue{
-        tagList: string[] = tagModel.data;
+        tagList: Tag[] = tagModel.data;
         addTag(){
             let name = window.prompt('新增一个标签') || '';
             name = name.trim();
@@ -36,9 +36,9 @@
             }
         }
 
-        goDump(id: string) {
+        goDump(item: Tag) {
             this.$router.push({
-                path: '/labels/edit/' + id
+                path: '/labels/edit/' + item.id
             });
         }
     }

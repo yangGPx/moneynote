@@ -6,3 +6,7 @@
     amount: number,
     createTime: string
   } 
+  type Tag = {
+    id: number,
+    name: string,
+  }
