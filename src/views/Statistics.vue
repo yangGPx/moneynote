@@ -4,11 +4,12 @@
   </layout>
 </template>
 <script lang="ts">
+  import store from '@/store/index2'
   import { Vue, Component } from 'vue-property-decorator'
   
   @Component
   export default class Statistics extends Vue{
-    data: RecordItem[] = window.recordList
+    data: RecordItem[] = store.recordList
   }
 </script>
 
