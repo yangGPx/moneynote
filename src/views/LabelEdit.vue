@@ -18,6 +18,7 @@
   import { Component } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
   import MButton from '@/components/MButton.vue';
+  import store from '@/store/index2'
 
   @Component({
     components: {
@@ -34,7 +35,7 @@
     editLabel(name: string) {
       if (name.trim().length === 0) return;
       if(this.id) {
-        const flag = window.tagUpdate(this.id, name);
+        const flag = store.tagUpdate(this.id, name);
         switch (flag) {
           case 'duplicated':
             alert('该标签存在');
@@ -44,7 +45,7 @@
     }
     deleteTag() {
       if(this.id) {
-        if (window.tagRemove(this.id)) {
+        if (store.tagRemove(this.id)) {
           this.$router.back();
         } else {
           window.alert('删除失败')
@@ -53,7 +54,7 @@
     }
     created() {
       this.id = this.$route.params.id;
-      this.tag = window.tagGetOne(this.id)
+      this.tag = store.tagGetOne(this.id)
       if(!(this.id && this.tag)) {
         this.$router.replace({
           path: '/404'

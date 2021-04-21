@@ -13,6 +13,7 @@
   import ForumItem from '@/components/ForumItem.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
   import { dataClone } from '@/libs/util'
+  import store from '@/store/index2';
 
   @Component({
     components: {
@@ -20,7 +21,7 @@
     }
   })
   export default class Money extends Vue{
-    tagList: Tag[] = window.tagList;
+    tagList: Tag[] = store.tagList;
     record: RecordItem = {
       tags: [],
       notes: '',
@@ -31,7 +32,7 @@
 
     onSubmit(): void {
       if (this.record.amount !== 0) {
-        if(window.recordCreate(dataClone(this.record))){
+        if(store.recordCreate(dataClone(this.record))){
           this.intRecord();
           window.alert('保存成功')
         } else {
@@ -52,7 +53,7 @@
 
     @Watch('recordList')
     saveRecordList(value: RecordItem[]): void{
-      window.recordSave();
+      store.recordSave();
     }
   }
 </script>
