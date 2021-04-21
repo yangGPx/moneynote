@@ -4,10 +4,12 @@ import idCreator from '@/libs/IdCreator'
 const defaultKeyName = 'tagList';
 
 type tagModel = {
-  data: Tag[],
-  fetch: () => Tag[],
-  save: () => void,
-  createTag: (name:string) => 'success' | 'duplicated' | 'empty',
+  data: Tag[]
+  fetch: () => Tag[]
+  save: () => void
+  update: (id: number|string, name: string) => 'success' | 'duplicated' | 'empty' | 'error'
+  delete: (id: number|string) => boolean
+  createTag: (name:string) => 'success' | 'duplicated' | 'empty'
   getOneById: (id: number|string) => Tag
   checkDuplicated: (name: string) => boolean
 }
@@ -22,7 +24,31 @@ const model: tagModel= {
   save() {
     setItem(defaultKeyName, this.data)
   },
-
+  update(id, name) {
+    if(name.trim().length === 0) return 'empty';
+    const item = this.getOneById(id);
+    if (item) {
+      if (this.checkDuplicated(name)) {
+        return 'duplicated';
+      }else {
+        item.name = name;
+        this.save();
+        return 'success';
+      }
+    }
+    return 'error'
+  },
+  delete(id) {
+    id = id + '';
+    for(let i = 0; i<this.data.length; i++) {
+      if(this.data[i].id === parseInt(id, 10)) {
+        this.data.splice(i, 1);
+        this.save();
+        return true;
+      }
+    }
+    return false;
+  },
   createTag(name) {
     if(name.trim().length === 0) return 'empty';
     if (this.checkDuplicated(name)) {

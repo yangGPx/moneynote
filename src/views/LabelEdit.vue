@@ -5,7 +5,10 @@
       <div class="title">编辑标签</div>
     </nav>
     <div class="edit-label-content">
-      <forum-item field-name="标签名" placeholder="在此处输入标签名" :value="tag && tag.name"/>
+      <forum-item field-name="标签名" placeholder="在此处输入标签名" :value="tag && tag.name" @update:value="editLabel"/>
+    </div>
+    <div class="delete">
+      <m-button @click="deleteTag">删除标签</m-button>
     </div>
   </layout>
 </template>
@@ -14,22 +17,49 @@
   import Vue from 'vue'
   import { Component } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
+  import MButton from '@/components/MButton.vue';
   import TagModel from '@/model/TagListModel'
 
   @Component({
     components: {
-      ForumItem
+      ForumItem,
+      MButton
     }
   })
   export default class LabelEdit extends Vue{
     tag?: Tag = undefined;
+    id?: string = undefined;
     goBack() {
       this.$router.back()
     }
-
+    editLabel(name: string) {
+      if (name.trim().length === 0) return;
+      if(this.id) {
+        const flag = TagModel.update(this.id, name);
+        switch (flag) {
+          case 'duplicated':
+            alert('该标签存在');
+          break;
+        }
+      }
+    }
+    deleteTag() {
+      if(this.id) {
+        if (TagModel.delete(this.id)) {
+          this.$router.back();
+        } else {
+          window.alert('删除失败')
+        }
+      }
+    }
     created() {
-      const { id } = this.$route.params;
-      this.tag = TagModel.getOneById(id)
+      this.id = this.$route.params.id;
+      this.tag = TagModel.getOneById(this.id)
+      if(!(this.id && this.tag)) {
+        this.$router.replace({
+          path: '/404'
+        })
+      }
     }
   }
 </script>
@@ -54,5 +84,9 @@
     .forum-item::v-deep{
       background: #fff;
     }
+  }
+
+  .delete{
+    text-align: center; padding: 20px 0;
   }
 </style>

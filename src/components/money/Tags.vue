@@ -59,7 +59,7 @@
     background: #fff;
     .tag-list{
       li{
-        display: inline-block;width: 50px;height: 24px;
+        display: inline-block;height: 24px;padding: 0 10px;
         line-height: 24px;background: #d9d9d9;text-align: center;
         border-radius: 24px;margin-right: 15px;margin-bottom: 15px;
         &.active{
