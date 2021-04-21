@@ -18,7 +18,6 @@
   import { Component } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
   import MButton from '@/components/MButton.vue';
-  import TagModel from '@/model/TagListModel'
 
   @Component({
     components: {

@@ -13,7 +13,6 @@
 </template>
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import tagModel from '@/model/TagListModel'
     import MButton from '@/components/MButton.vue'
 
     @Component({

@@ -2,22 +2,29 @@ import { getItem, setItem } from './util'
 
 const defaultKeyName = 'recordList';
 
-function recordClone(value: RecordItem):RecordItem {
-  return JSON.parse(JSON.stringify(value))
+type recordModel = {
+  data: RecordItem[]
+  fetch: () => RecordItem[]
+  save: () => void
+  create: (item: RecordItem) => boolean
 }
 
-function recordFetch():RecordItem[] {
-  const list = getItem(defaultKeyName) || [] as RecordItem[];
-  
-  return list;
+const model:recordModel = {
+  data: [],
+  fetch: function() {
+    this.data= getItem(defaultKeyName) || [] as RecordItem[];
+    return this.data;
+  },
+  save: function () {
+    setItem(defaultKeyName, this.data)
+  },
+  create: function(item: RecordItem) {
+    if (item.amount > 0 && item.tags.length > 0) {
+      this.data.push(item)
+      return true;
+    }
+    return false;
+  }
 }
 
-function recordSave(value: RecordItem[]):void {
-  setItem(defaultKeyName, value)
-}
-
-export {
-  recordClone,
-  recordFetch,
-  recordSave
-}
+export default model
