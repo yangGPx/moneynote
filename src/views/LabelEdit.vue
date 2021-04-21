@@ -35,7 +35,7 @@
     editLabel(name: string) {
       if (name.trim().length === 0) return;
       if(this.id) {
-        const flag = TagModel.update(this.id, name);
+        const flag = window.tagUpdate(this.id, name);
         switch (flag) {
           case 'duplicated':
             alert('该标签存在');
@@ -45,7 +45,7 @@
     }
     deleteTag() {
       if(this.id) {
-        if (TagModel.delete(this.id)) {
+        if (window.tagRemove(this.id)) {
           this.$router.back();
         } else {
           window.alert('删除失败')
@@ -54,7 +54,7 @@
     }
     created() {
       this.id = this.$route.params.id;
-      this.tag = TagModel.getOneById(this.id)
+      this.tag = window.tagGetOne(this.id)
       if(!(this.id && this.tag)) {
         this.$router.replace({
           path: '/404'

@@ -21,7 +21,7 @@
     }
   })
   export default class Money extends Vue{
-    tagList: Tag[] = tagModel.data;
+    tagList: Tag[] = window.tagList;
     recordList: RecordItem[] = recordFetch();
     record: RecordItem = {
       tags: [],

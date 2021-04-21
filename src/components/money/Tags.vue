@@ -17,8 +17,6 @@
   import { Component, Prop } from 'vue-property-decorator'
   import tagModel from '@/model/TagListModel'
 
-  tagModel.fetch()
-
   @Component
   export default class Tags extends Vue{
     @Prop({ default: [] }) dataSource!:string[];
@@ -43,7 +41,7 @@
       let name = window.prompt('新增一个标签') || '';
       name = name.trim()
       if (name.length === 0) return;
-      if (tagModel.createTag(name) === 'duplicated') {
+      if (window.tagCreate(name) === 'duplicated') {
         window.alert('该标签已存在');
       } else {
         window.alert('创建成功');

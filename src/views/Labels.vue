@@ -16,20 +16,18 @@
     import tagModel from '@/model/TagListModel'
     import MButton from '@/components/MButton.vue'
 
-    tagModel.fetch()
-
     @Component({
         components: {
             MButton
         }
     })
     export default class Labels extends Vue{
-        tagList: Tag[] = tagModel.data;
+        tagList: Tag[] = window.tagList;
         addTag(){
             let name = window.prompt('新增一个标签') || '';
             name = name.trim();
             if (name.length === 0) return;
-            if (tagModel.createTag(name) === 'duplicated') {
+            if (window.tagCreate(name) === 'duplicated') {
                 window.alert('该标签已存在');
             } else {
                 window.alert('创建成功');
