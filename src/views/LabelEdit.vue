@@ -27,34 +27,30 @@
     }
   })
   export default class LabelEdit extends Vue{
-    tag?: Tag = undefined;
     id?: string = undefined;
+    get tag() {
+      return this.$store.state.currentTag;
+    }
     goBack() {
       this.$router.back()
     }
     editLabel(name: string) {
       if (name.trim().length === 0) return;
       if(this.id) {
-        const flag = store.tagUpdate(this.id, name);
-        switch (flag) {
-          case 'duplicated':
-            alert('该标签存在');
-          break;
-        }
+        this.$store.commit('updateTag', {
+          id: this.id,
+          name,
+        });
       }
     }
     deleteTag() {
       if(this.id) {
-        if (store.tagRemove(this.id)) {
-          this.$router.back();
-        } else {
-          window.alert('删除失败')
-        }
+        this.$store.commit('deleteTag', this.id)
       }
     }
     created() {
       this.id = this.$route.params.id;
-      this.tag = store.tagGetOne(this.id)
+      this.$store.commit('getOneTag', this.id);
       if(!(this.id && this.tag)) {
         this.$router.replace({
           path: '/404'
