@@ -14,24 +14,26 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import MButton from '@/components/MButton.vue'
-    import store from '@/store/index2'
 
     @Component({
         components: {
             MButton
+        },
+        computed: {
+            tagList() {
+                return this.$store.state.tagList;
+            }
         }
     })
     export default class Labels extends Vue{
-        tagList: Tag[] = store.tagList;
+        created() {
+            this.$store.commit('fetchTags')
+        }
         addTag(){
             let name = window.prompt('新增一个标签') || '';
             name = name.trim();
             if (name.length === 0) return;
-            if (store.tagCreate(name) === 'duplicated') {
-                window.alert('该标签已存在');
-            } else {
-                window.alert('创建成功');
-            }
+            this.$store.commit('createTag', name)
         }
 
         goDump(item: Tag) {

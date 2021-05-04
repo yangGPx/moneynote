@@ -18,10 +18,9 @@
   @Component({
     components: {
       Tags,Tabs,ForumItem,NumberPad
-    }
+    },
   })
   export default class Money extends Vue{
-    tagList: Tag[] = store.tagList;
     record: RecordItem = {
       tags: [],
       notes: '',
@@ -29,15 +28,16 @@
       amount: 0,
       createTime: Date()
     };
-
+    get tagList() {
+      return this.$store.state.tagList;
+    }
+    created() {
+      this.$store.commit('fetchTags')
+    }
     onSubmit(): void {
       if (this.record.amount !== 0) {
-        if(store.recordCreate(dataClone(this.record))){
-          this.intRecord();
-          window.alert('保存成功')
-        } else {
-          window.alert('保存失败')
-        };
+        this.$store.commit('createRecord', dataClone(this.record));
+        this.intRecord();
       }
     }
 
@@ -49,11 +49,6 @@
         amount: 0,
         createTime: Date()
       }
-    }
-
-    @Watch('recordList')
-    saveRecordList(value: RecordItem[]): void{
-      store.recordSave();
     }
   }
 </script>
