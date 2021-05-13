@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { createLogger } from '_vuex@3.6.2@vuex';
 
 @Component
 export class TagHandler extends Vue {

@@ -1,4 +1,4 @@
-function dataClone(value: any):RecordItem {
+function dataClone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value))
 }
 
