@@ -52,7 +52,8 @@
       justify-content: center;
       align-items: center;
       &.active{
-        border-bottom: 1px solid;
+        background: #fff;
+        border-bottom: 2px solid #c4c4c4;
       }
     }
   }

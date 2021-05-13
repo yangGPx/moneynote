@@ -1,4 +1,4 @@
-const moneyTypeTabs = [
+const moneyTypeTabs = Object.freeze([
     {
       text: '支出',
       value: '-'
@@ -7,7 +7,7 @@ const moneyTypeTabs = [
       text: '收入',
       value: '+'
     },
-]
+])
 
 export {
     moneyTypeTabs,
