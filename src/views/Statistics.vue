@@ -49,18 +49,32 @@
     }
   })
   export default class Statistics extends Vue{
-    moneyType = ''
+    moneyType = moneyTypeTabs[0].value
     moneyTypeTabs = moneyTypeTabs
     created() {
       this.$store.commit('fetchRecord')
     }
 
+    // 分类是支出 还是 收入，以及排序  由于一开始moneyType的值为空，这样会导致一开始的筛选出来的数组 为空，导致后面报错，
+    // 先一开始就给moneyType赋值
+    // get singleTypeSortList() {
+    //   if (this.recordList.length === 0) return [];
+    //     console.log('111', this.moneyType);
+    //   const data = dataClone(this.recordList).filter(item => {
+    //     return item.type === this.moneyType
+    //   });
+    //   data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
+
+    //   return data;
+    // }
+
     get result() {
-      if (this.recordList.length === 0) return;
+      if (this.recordList.length === 0) return [];
       const { formatTime } = this;
-      const data = dataClone(this.recordList);
+
+      const data = dataClone(this.recordList).filter(item => item.type === this.moneyType)
       data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
-      
+
       const list:ResultItem[] = [{title: formatTime(data[0].createTime), total: data[0].amount, items:[data[0]]}]
       for(let i = 1; i < data.length; i++) {
         let currentItemTime = formatTime(data[i].createTime)
