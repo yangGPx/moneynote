@@ -2,7 +2,7 @@
   <layout classPrefix="money">
     <tags :data-source="tagList" :value.sync="record.tags"/>
     <forum-item :value.sync="record.notes"/>
-    <tabs :value.sync="record.type"/>
+    <tabs :value.sync="record.type" :data-source="moneyTypeTabs"/>
     <number-pad :value.sync="record.amount" @submit="onSubmit"/>
   </layout>
 </template>
@@ -13,6 +13,7 @@
   import ForumItem from '@/components/ForumItem.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
   import { dataClone } from '@/libs/util'
+  import { moneyTypeTabs } from '@/const'
 
   @Component({
     components: {
@@ -23,10 +24,13 @@
     record: RecordItem = {
       tags: [],
       notes: '',
-      type: 'out',
+      type: '-',
       amount: 0,
       createTime: Date()
     };
+
+    moneyTypeTabs = moneyTypeTabs
+
     get tagList() {
       return this.$store.state.tagList;
     }
@@ -44,7 +48,7 @@
       this.record = {
         tags: [],
         notes: '',
-        type: 'out',
+        type: '-',
         amount: 0,
         createTime: Date()
       }

@@ -1,13 +1,21 @@
 <template>
   <layout>
-    {{ recordList }}
+    <tabs :dataSource="moneyTypeTabs" :value.sync="moneyType"/>
   </layout>
 </template>
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  
-  @Component
+  import Tabs from '@/components/Tabs.vue'
+  import { moneyTypeTabs } from '@/const'
+
+  @Component({
+    components: {
+      Tabs
+    }
+  })
   export default class Statistics extends Vue{
+    moneyType = ''
+    moneyTypeTabs = moneyTypeTabs
     created() {
       this.$store.commit('fetchRecord')
     }
