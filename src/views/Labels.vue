@@ -14,24 +14,20 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
     import MButton from '@/components/MButton.vue'
+    import { TagHandler } from '@/mixins'
+    import { mixins } from 'vue-class-component'
 
     @Component({
         components: {
             MButton
         },
     })
-    export default class Labels extends Vue{
+    export default class Labels extends mixins(TagHandler){
         get tagList() {
             return this.$store.state.tagList;
         }
         created() {
             this.$store.commit('fetchTags')
-        }
-        addTag(){
-            let name = window.prompt('新增一个标签') || '';
-            name = name.trim();
-            if (name.length === 0) return;
-            this.$store.commit('createTag', name)
         }
 
         goDump(item: Tag) {

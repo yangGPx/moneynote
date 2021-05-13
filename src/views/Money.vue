@@ -9,11 +9,10 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import Tags from '@/components/money/Tags.vue';
-  import Tabs from '@/components/money/Tabs.vue';
+  import Tabs from '@/components/Tabs.vue';
   import ForumItem from '@/components/ForumItem.vue';
   import NumberPad from '@/components/money/NumberPad.vue';
   import { dataClone } from '@/libs/util'
-  import store from '@/store/index2';
 
   @Component({
     components: {

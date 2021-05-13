@@ -15,11 +15,11 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Component, Prop } from 'vue-property-decorator'
-  import store from '@/store/index2'
-  
+  import { mixins } from 'vue-class-component'
+  import { TagHandler } from '@/mixins'
 
   @Component
-  export default class Tags extends Vue{
+  export default class Tags extends mixins(TagHandler){
     @Prop({ default: [] }) dataSource!:string[];
     @Prop({ default: [] }) value!: string[];
     
@@ -36,13 +36,6 @@
     active(input:string){
       const index:number = this.value.indexOf(input);
       return index > -1;
-    }
-
-    addTag(){
-      let name = window.prompt('新增一个标签') || '';
-      name = name.trim()
-      if (name.length === 0) return;
-      this.$store.commit('tagCreate', name)
     }
   }
 </script>
