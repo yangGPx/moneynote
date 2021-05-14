@@ -40,7 +40,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import Tabs from '@/components/Tabs.vue'
-  import { moneyTypeTabs } from '@/const'
+  import { moneyTypeTabs, weekCn } from '@/const'
   import dayjs from 'dayjs'
   import { dataClone } from '@/libs/util'
 
@@ -63,7 +63,7 @@
     created() {
       this.$store.commit('fetchRecord')
     }
-
+// TODO
     // 分类是支出 还是 收入，以及排序  由于一开始moneyType的值为空，这样会导致一开始的筛选出来的数组 为空，导致后面报错，
     // 先一开始就给moneyType赋值
     // get singleTypeSortList() {
@@ -103,7 +103,8 @@
     }
 
     addWeekStr(day: string) {
-      return dayjs().isSame(dayjs(day)) ? `${day} （今天）` : `${day} （${dayjs(day).day()}）`;
+      // TODO
+      return dayjs().isSame(dayjs(day)) ? `${day} （今天）` : `${day} （${weekCn[dayjs(day).day()]}）`;
     }
 
     get recordList(): RecordItem[] {
