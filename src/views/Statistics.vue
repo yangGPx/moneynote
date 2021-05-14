@@ -1,14 +1,21 @@
 <template>
-  <layout>
+  <layout classPrefix="statistics">
     <tabs :data-source="moneyTypeTabs" :value.sync="moneyType"/>
-    <ul>
+    <ul class="record-list-wrapper" v-if="recordList.length > 0">
       <li v-for="(item, index) in result" :key="index">
-        <div><span>{{ item.title }}</span> <span>￥{{ item.total }}</span></div>
-        <div v-for="record in item.items" :key="record.id">
-          {{ record.tags }} ￥{{record.amount}}
+        <div class="title"><span>{{ item.title }}</span> <span>￥{{ item.total }}</span></div>
+        <div v-for="record in item.items" :key="record.id" class="item">
+          <div>
+            <span>{{ record.tags[0] }}</span>
+            <span class="notes">{{ record.notes }}</span>
+          </div>
+          <span>￥{{record.amount}}</span>
         </div>
       </li>
     </ul>
+    <div v-else class="no-data">
+      暂无记录
+    </div>
   </layout>
 </template>
 
@@ -100,5 +107,32 @@
 </script>
 
 <style lang="scss" scoped>
-  
+  @mixin flexClass{
+    padding: 8px 10px;
+    display: flex;justify-content: space-between;
+  }
+  .record-list-wrapper{
+    .title{
+      background: #CCC;
+      @include flexClass;
+      padding: 8px 10px;
+    }
+    .item{
+      .notes{
+        padding-left: 10px;
+      }
+      @include flexClass;
+      padding: 5px 10px;
+      background: rgb(219, 218, 218);
+    }
+  }
+</style>
+<style lang="scss">
+  .statistics-content{
+    display: flex;flex-direction: column;
+    .no-data{
+      height: 100%;font-size: 20px;align-items: center;justify-content: center;
+      display: flex;background: #ccc;
+    }
+  }
 </style>
