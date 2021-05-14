@@ -3,7 +3,7 @@
     <tabs :data-source="moneyTypeTabs" :value.sync="moneyType"/>
     <ul class="record-list-wrapper" v-if="recordList.length > 0">
       <li v-for="(item, index) in result" :key="index">
-        <div class="title"><span>{{ item.title }}</span> <span>￥{{ item.total }}</span></div>
+        <div class="title"><span>{{ addWeekStr(item.title) }}</span> <span>￥{{ item.total }}</span></div>
         <div v-for="record in item.items" :key="record.id" class="item">
           <div>
             <span>{{ record.tags[0] }}</span>
@@ -43,6 +43,8 @@
   import { moneyTypeTabs } from '@/const'
   import dayjs from 'dayjs'
   import { dataClone } from '@/libs/util'
+
+  console.log(dayjs);
 
   type ResultItem = {
     title: string,
@@ -98,6 +100,10 @@
 
     formatTime(time: string) {
       return dayjs(time).format('YYYY-MM-DD')
+    }
+
+    addWeekStr(day: string) {
+      return dayjs().isSame(dayjs(day)) ? `${day} （今天）` : `${day} （${dayjs(day).day()}）`;
     }
 
     get recordList(): RecordItem[] {
