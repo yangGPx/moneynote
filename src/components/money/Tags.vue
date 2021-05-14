@@ -24,14 +24,14 @@
     @Prop({ default: [] }) value!: string[];
     
     toggle(input: string){
-      const index:number = this.value.indexOf(input);
-      const tempArr = [...this.value];
-      if (index > -1) {
-        tempArr.splice(index, 1);
-      } else {
-        tempArr.push(input);
-      }
-      this.$emit('update:value', [...tempArr]);
+      // const index:number = this.value.indexOf(input);
+      // const tempArr = [...this.value];
+      // if (index > -1) {
+      //   tempArr.splice(index, 1);
+      // } else {
+      //   tempArr.push(input);
+      // }
+      this.$emit('update:value', [input]);
     }
     active(input:string){
       const index:number = this.value.indexOf(input);
