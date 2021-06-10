@@ -7,6 +7,7 @@
     createTime: string
   } 
   type Tag = {
-    id: number,
+    id: number | string,
     name: string,
+    svg?: string
   }

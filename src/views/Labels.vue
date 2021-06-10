@@ -2,7 +2,10 @@
     <layout classPrefix="labels">
         <ul class="tag-list">
             <li v-for="item in tagList" :key="item.id" @click="goDump(item)">
-                {{ item.name }}
+                <span>
+                    <icon :name="item.svg || 'self'" /> {{ item.name }}
+                    {{ item.id }}
+                </span>
                 <icon name="right"/>
             </li>
         </ul>
@@ -51,6 +54,13 @@
             align-items: center;fill: #333;
             &:last-child{
                 border-bottom: 0;
+            }
+            >span:first-child{
+                display: flex;align-items: center;
+                ::v-deep svg{
+                    margin-right: 10px;
+                    width: 25px;height: 25px;
+                }
             }
         }
     }

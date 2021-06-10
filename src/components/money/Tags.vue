@@ -4,7 +4,12 @@
       <li v-for="item in dataSource"
         :class="{active: active(item.name)}"
         :key="item.id"
-        @click="toggle(item.name)">{{ item.name }}</li>
+        @click="toggle(item.name)">
+        <span class="icon-wrapper">
+          <icon :name="item.svg || 'self'"/>
+        </span>
+        <span class="tag-name">{{ item.name }}</span>
+      </li>
     </ul>
     <div class="add-tag">
       <span @click="addTag">新增标签</span>
@@ -47,11 +52,33 @@
     background: #fff;
     .tag-list{
       li{
-        display: inline-block;height: 24px;padding: 0 10px;
-        line-height: 24px;background: #d9d9d9;text-align: center;
-        border-radius: 24px;margin-right: 15px;margin-bottom: 15px;
+        display: inline-flex;
+        padding: 0 7px;
+        text-align: center;
+        border-radius: 24px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        flex-direction: column;
         &.active{
-          background: #999;color: #fff;
+          .icon-wrapper{
+            background: rgb(255, 166, 0);
+          }
+          .tag-name{
+            color: rgb(255, 166, 0);
+          }
+        }
+        .icon-wrapper{
+          $iconHeight: 50px;
+          $svgWH: 27px;
+          background: #ccc9c9;display: flex;justify-content: center;align-items: center;
+          width: $iconHeight;height: $iconHeight;border-radius: 50%;margin-bottom: 5px;
+          ::v-deep svg{
+            width: $svgWH;
+            height: $svgWH;
+          }
+        }
+        .tag-name{
+          display: block;
         }
       }
     }

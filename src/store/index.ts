@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import router from '@/router'
 import { getItem, setItem } from '@/model/util'
 import idCreator from '@/libs/IdCreator'
+import { labelDefault } from '../const/index'
 
 Vue.use(Vuex)
 
@@ -15,13 +16,17 @@ type RootState = {
   recordList: RecordItem[]
   tagList: Tag[]
   currentTag ?: Tag
+  createdTags: Tag[]
+  createdTagFlag: 'duplicated'| 'success' | 'empty' | ''
 }
 
 const store = new Vuex.Store({
   state: {
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[],
-    currentTag: undefined
+    recordList: [],
+    tagList: [],
+    currentTag: undefined,
+    createdTags: [],
+    createdTagFlag: ''
   } as RootState,
   mutations: {
     fetchRecord(state) {
@@ -31,36 +36,49 @@ const store = new Vuex.Store({
       setItem('recordList', state.recordList);
     },
     createRecord(state,item: RecordItem) {
-      console.log(item);
       if (item.amount > 0 && item.tags.length > 0) {
+        console.log(item);
         state.recordList.push(item)
         store.commit('saveRecordList')
       }
     },
     fetchTags(state) {
-      state.tagList = getItem('tagList') || []
+      state.createdTags = getItem('createdTags');
+      let list = Object.entries(labelDefault).map(([key, value]) => {
+        return {
+          id: key,
+          name: value,
+          svg: key
+        }
+      })
+      state.tagList = [...list, ...state.createdTags]
+    },
+    fetchCreatedTag(state) {
+      state.createdTags = getItem('createdTags');
     },
     saveTags(state) {
-      setItem('tagList', state.tagList)
+      setItem('createdTags', state.createdTags)
     },
-    createTag(state, name:string): 'duplicated'| 'success' | 'empty' {
-      if(name.trim().length === 0) return 'empty';
+    createTag(state, name:string) {
+      if(name.trim().length === 0) state.createdTagFlag = 'empty';
+
       if (checkDuplicated(state.tagList, name)) {
-        return 'duplicated';
+        state.createdTagFlag = 'duplicated';
       }
-      state.tagList.push({
+      state.createdTags.push({
         id: idCreator(),
         name
       });
       store.commit('saveTags')
-      return 'success';
+      state.createdTagFlag = 'success';
+      store.commit('fetchTags') // 更新 全部列表
     },
     getOneTag(state, id:string) {
       // 如果一个新页面直接getOne 需要先将数据从localStorage中拿出来
-      if(state.tagList.length === 0) {
-        store.commit('fetchTags')
+      if(state.createdTags.length === 0) {
+        store.commit('fetchCreatedTag')
       }
-      state.currentTag = state.tagList.filter(item => item.id === parseInt(id, 10))[0];
+      state.currentTag = state.createdTags.filter(item => item.id === parseInt(id, 10))[0];
     },
     updateTag(state, payload: { id: string, name:string }) {
       const { name } = payload;

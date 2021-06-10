@@ -1,9 +1,10 @@
 <template>
   <layout classPrefix="money">
     <tags :data-source="tagList" :value.sync="record.tags"/>
-    <forum-item :value.sync="record.notes"/>
     <tabs :value.sync="record.type" :data-source="moneyTypeTabs"/>
-    <number-pad :value.sync="record.amount" @submit="onSubmit"/>
+    <number-pad :value.sync="record.amount"
+      :note.sync="record.notes"
+      @submit="onSubmit"/>
   </layout>
 </template>
 <script lang="ts">
@@ -37,10 +38,13 @@
     created() {
       this.$store.commit('fetchTags')
     }
-    onSubmit(): void {
-      if (this.record.amount !== 0) {
+    onSubmit(numPad: NumberPad): void {
+      if (this.record.amount !== 0 && this.record.tags.length > 0) {
         this.$store.commit('createRecord', dataClone(this.record));
         this.intRecord();
+        numPad.empty()
+      } else {
+        window.alert(this.record.amount === 0 ? '金额不能为空' : '必须选择一个标签');
       }
     }
 

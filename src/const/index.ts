@@ -9,17 +9,22 @@ const moneyTypeTabs = Object.freeze([
     },
 ])
 
-const weekCn = {
-  0: '星期日',
-  1: '星期一',
-  2: '星期二',
-  3: '星期三',
-  4: '星期四',
-  5: '星期五',
-  6: '星期六',
+const weekCn = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六']
+
+const labelDefault = {
+  breakfast: '早餐',
+  lunch: '午餐',
+  dinner: '晚餐',
+  traffic: '交通',
+  fruit: '水果',
+  snacks: '零食',
+  daily: '日用',
+  clothes: '服饰',
+  pets: '宠物',
 }
 
 export {
-    moneyTypeTabs,
-    weekCn
+  moneyTypeTabs,
+  weekCn,
+  labelDefault
 }
