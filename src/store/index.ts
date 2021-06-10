@@ -43,7 +43,7 @@ const store = new Vuex.Store({
       }
     },
     fetchTags(state) {
-      state.createdTags = getItem('createdTags');
+      state.createdTags = getItem('createdTags') || [];
       let list = Object.entries(labelDefault).map(([key, value]) => {
         return {
           id: key,
