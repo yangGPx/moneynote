@@ -1,8 +1,11 @@
 <template>
   <div class="number-pad">
-    <p class="input-wrapper">
-      <input v-model="output"/>
-    </p>
+    <div class="input-wrapper">
+      <forum-item field-name="备注"
+        :value="notes" @update:value="noteUpdate"
+        placeholder="点击此处填写备注"/>
+      <span class="money-input"> {{ output }}</span>
+    </div>
     <div class="number-btn-list" @click="actionHanlder">
       <button>7</button>
       <button>8</button>
@@ -25,12 +28,19 @@
 <script lang="ts">
   import Vue from 'vue'
   import { Component, Prop } from 'vue-property-decorator'
+  import ForumItem from '@/components/ForumItem.vue';
 
-  @Component
+  @Component({
+    components: {
+      ForumItem,
+    }
+  })
   export default class NumberPad extends Vue{
     @Prop({ default: 0 }) value!: number | undefined;
+    @Prop({ default: '' }) notes: string | undefined;
 
     output = `${this.value || 0}`;
+    noteOutput = '';
     actionHanlder(event: MouseEvent){
       const target = event.target as HTMLButtonElement;
       const input:string = target.textContent || ''; // 这里得增加一个默认值，否则ts认为liEl.textContent 可能为null
@@ -40,6 +50,10 @@
         return;
       }
       this.output = output === '0' && input !== '.' ? input : `${output}${input}`;
+    }
+
+    noteUpdate(value: string) {
+      this.noteOutput = value;
     }
 
     empty() {
@@ -52,9 +66,13 @@
     }
 
     okFn() {
+      this.$emit('update:note', this.noteOutput);
       this.$emit('update:value', parseFloat(this.output));
-      this.$emit('submit');
-      this.output = '0';
+      this.$emit('submit', this);
+    }
+
+    created() {
+      this.noteOutput = this.notes || '';
     }
   }
 </script>
@@ -62,14 +80,24 @@
 <style lang="scss" scoped>
   .number-pad{
     .input-wrapper{
-      input{
-        width: 100%;border: 0;outline:none;
-        font-size: 32px;padding: 8px 12px;text-align: right;
+      padding: 7px 0px;
+      display: flex;background: #f2f2f2;align-items: center;
+      ::v-deep .forum-item{
+        padding: 0 5px;width: 100%;background: #f2f2f2;
+        padding-left: 10px;
+        input{
+          margin-left: 10px;
+        }
+      }
+      .money-input{
+        padding:0 10px;
+        font-size: 28px;text-align: right;
       }
     }
     .number-btn-list{
+      $btnHeihgt: 52px;
       button{
-        border: 0;width:25%;height: 64px;float: left;
+        border: 0;width:25%;height: $btnHeihgt;float: left;
         font-size: 16px;outline: none;
         &:nth-child(1){
           background: #F2F2F2;
@@ -96,7 +124,7 @@
           width: 50%;
         }
         &.ok-key{
-          height: 128px;float: right;
+          height: $btnHeihgt * 2;float: right;
         }
       }
     }
