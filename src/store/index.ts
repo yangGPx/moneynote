@@ -60,10 +60,13 @@ const store = new Vuex.Store({
       setItem('createdTags', state.createdTags)
     },
     createTag(state, name:string) {
-      if(name.trim().length === 0) state.createdTagFlag = 'empty';
-
+      if(name.trim().length === 0) {
+        state.createdTagFlag = 'empty';
+        return;
+      };
       if (checkDuplicated(state.tagList, name)) {
         state.createdTagFlag = 'duplicated';
+        return;
       }
       state.createdTags.push({
         id: idCreator(),
@@ -90,9 +93,9 @@ const store = new Vuex.Store({
     },
     deleteTag(state, id: string | number) {
       id = id + '';
-      for(let i = 0; i<state.tagList.length; i++) {
-        if(state.tagList[i].id === parseInt(id, 10)) {
-          state.tagList.splice(i, 1);
+      for(let i = 0; i<state.createdTags.length; i++) {
+        if(state.createdTags[i].id === parseInt(id, 10)) {
+          state.createdTags.splice(i, 1);
           router.back()
           store.commit('saveTags');
         }
