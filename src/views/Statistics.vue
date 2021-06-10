@@ -1,12 +1,12 @@
 <template>
   <layout classPrefix="statistics">
     <tabs :data-source="moneyTypeTabs" :value.sync="moneyType"/>
-    <ul class="record-list-wrapper" v-if="recordList.length > 0">
+    <ul class="record-list-wrapper" v-if="result.length > 0">
       <li v-for="(item, index) in result" :key="index">
         <div class="title"><span>{{ addWeekStr(item.title) }}</span> <span>￥{{ item.total }}</span></div>
         <div v-for="record in item.items" :key="record.id" class="item">
           <div>
-            <span>{{ record.tags[0] }}</span>
+            <span>{{ record.tags[0] || '无' }}</span>
             <span class="notes">{{ record.notes }}</span>
           </div>
           <span>￥{{record.amount}}</span>
@@ -44,8 +44,6 @@
   import dayjs from 'dayjs'
   import { dataClone } from '@/libs/util'
 
-  console.log(dayjs);
-
   type ResultItem = {
     title: string,
     total: number,
@@ -78,10 +76,11 @@
     // }
 
     get result() {
+      console.log(this.recordList, 111);
       if (this.recordList.length === 0) return [];
       const { formatTime } = this;
-
       const data = dataClone(this.recordList).filter(item => item.type === this.moneyType)
+      if(data.length === 0) return [];
       data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
 
       const list:ResultItem[] = [{title: formatTime(data[0].createTime), total: data[0].amount, items:[data[0]]}]
@@ -103,8 +102,8 @@
     }
 
     addWeekStr(day: string) {
-      // TODO
-      return dayjs().isSame(dayjs(day)) ? `${day} （今天）` : `${day} （${weekCn[dayjs(day).day()]}）`;
+      let numDay = dayjs(day).day();
+      return dayjs().isSame(dayjs(day), 'day') ? `${day} （今天）` : `${day} （${weekCn[numDay]}）`;
     }
 
     get recordList(): RecordItem[] {
@@ -122,7 +121,7 @@
     .title{
       background: #CCC;
       @include flexClass;
-      padding: 8px 10px;
+      padding: 12px 10px;font-size: 16px;
     }
     .item{
       .notes{
