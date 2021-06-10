@@ -22,7 +22,7 @@
 
 <style lang="scss" scoped>
   .layout{
-    display: flex;flex-direction: column;height:100vh;
+    display: flex;flex-direction: column;height:100%;
     .content{
       flex-grow: 1;background: #e5e5e5;
     }

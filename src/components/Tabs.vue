@@ -43,7 +43,7 @@
 <style lang="scss" scoped>
   .tabs{
     display: flex;justify-content: center;align-items: center;
-    height: 64px;font-size: 24px;position: relative;
+    height: 56px;font-size: 24px;position: relative;
     background: #C4C4C4;
     li{
       flex-grow: 1;

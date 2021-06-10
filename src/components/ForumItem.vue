@@ -1,6 +1,6 @@
 <template>
   <label class="forum-item">
-    {{ fieldName }}
+    <span>{{ fieldName }}</span>
     <input :placeholder="placeholder" @input="commentFn" :value="value"/>
   </label>
 </template>
@@ -29,6 +29,9 @@
     input{
       margin-left: 15px;padding: 10px 5px;border:0;
       outline: none;background: inherit;flex-grow:1;
+    }
+    span{
+      flex-shrink: 0;
     }
   }
 </style>
