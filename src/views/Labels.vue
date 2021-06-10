@@ -4,9 +4,8 @@
             <li v-for="item in tagList" :key="item.id" @click="goDump(item)">
                 <span>
                     <icon :name="item.svg || 'self'" /> {{ item.name }}
-                    {{ item.id }}
                 </span>
-                <icon name="right"/>
+                <icon name="right" v-if="/^[0-9]+/.test(parseInt(item.id, 10))"/>
             </li>
         </ul>
         <div class="button-wrapper">
