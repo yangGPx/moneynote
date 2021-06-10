@@ -2,6 +2,9 @@
 const path = require('path')
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/moneynote-web/'
+    : '/',
   lintOnSave: false,
   chainWebpack: config => {
     const dir = path.resolve(__dirname, 'src/assets/icons')  //确定icon所在的目录
