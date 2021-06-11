@@ -41,15 +41,15 @@
 </script>
 
 <style lang="scss" scoped>
-.labels-content{
+::v-deep .labels-content{
     display: flex; flex-direction: column;height: 100%;
     .tag-list{
-        padding: 0 15px;
-        background: #fff;
+        background: inherit;
         flex-grow: 1;
         li{
             border-bottom: 2px solid #E5e5e5;
-            padding: 12px 0;display: flex; justify-content: space-between;
+            background: #fff;
+            padding: 12px 15px;display: flex; justify-content: space-between;
             align-items: center;fill: #333;
             &:last-child{
                 border-bottom: 0;
@@ -64,7 +64,17 @@
         }
     }
     .button-wrapper{
-        text-align: center;padding: 20px 0;
+        text-align: center;padding: 15px 0 20px 0;
     }
 }
+</style>
+<style lang="scss">
+    .button-wrapper{
+        .m-button{
+            color: #fff;
+            width: 60%;
+            height: 45px;
+            background: rgba(256,125,0, 0.8);
+        }
+    }
 </style>
