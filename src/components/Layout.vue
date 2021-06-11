@@ -22,9 +22,16 @@
 
 <style lang="scss" scoped>
   .layout{
-    display: flex;flex-direction: column;height:100%;
+    $navHeight: 56px;
+    display: flex;flex-direction: column;height: 100%;
     .content{
+      height: calc(100% - #{$navHeight});
+      max-height: calc(100% - #{$navHeight});
       flex-grow: 1;background: #e5e5e5;
+      overflow: hidden;
+    }
+    ::v-deep .common-nav{
+      height: $navHeight;
     }
   }
 </style>

@@ -1,12 +1,14 @@
 <template>
   <layout classPrefix="statistics">
     <ul class="total-wrapper">
-      <li>支出: {{outputTotal}}</li>
-      <li>收入: {{inputTotal}}</li>
+      <li>总支出: {{outputTotal}}</li>
+      <li>总收入: {{inputTotal}}</li>
     </ul>
     <ul class="record-list-wrapper" v-if="result.length > 0">
       <li v-for="(item, index) in result" :key="index">
-        <div class="title"><span>{{ addWeekStr(item.title) }}</span> <span>￥{{ item.inTotal }}  {{item.outTotal}}</span></div>
+        <div class="title"><span>{{ addWeekStr(item.title) }}</span> 
+          <div><span class="outtotal-wrapper">支出: {{ item.outTotal }}</span>收入: {{item.inTotal}}</div>
+        </div>
         <div v-for="record in item.items" :key="record.id" class="item">
           <div>
             <span>{{ record.tags[0] || '无' }}</span>
@@ -132,23 +134,40 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~@/assets/css/prefix.scss';
+
   @mixin flexClass{
-    padding: 8px 10px;
+    padding: 10px;
     display: flex;justify-content: space-between;
   }
+  .total-wrapper{
+    display: flex;justify-content: center;align-items: center;
+    padding: 10px;background: $mainColor;
+    li{
+      flex-grow: 1;text-align: center;font-size: 22px;color: #f2f2f2;
+    }
+  }
   .record-list-wrapper{
+    border-bottom: 1px solid #ccc;
     .title{
       background: #CCC;
       @include flexClass;
-      padding: 12px 10px;font-size: 16px;
+      padding: 12px 10px;font-size: 14px;
+        .outtotal-wrapper{
+          margin-right: 10px;
+        }
     }
     .item{
       .notes{
         padding-left: 10px;
       }
       @include flexClass;
-      padding: 5px 10px;
-      background: rgb(219, 218, 218);
+      padding: 7px 0px;
+      margin: 0px 7px;
+      border-bottom: 1px solid #ccc;
+      &:last-child{
+        border-bottom: 0;
+      }
     }
   }
 </style>

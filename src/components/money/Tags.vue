@@ -46,29 +46,32 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~@/assets/css/prefix.scss';
+
   .tags{
-    flex-grow: 1;padding: 16px 20px;display: flex;
+    $space: 8px;
+    $itemPadding: 11px;
+    flex-grow: 1;padding: 16px 0;display: flex;
     flex-direction: column;justify-content: flex-end;
     background: #fff;
     .tag-list{
+      padding: 0 $space;
       li{
         display: inline-flex;
-        padding: 0 7px;
         text-align: center;
         border-radius: 24px;
-        margin-right: 15px;
-        margin-bottom: 15px;
+        margin: 0 $itemPadding 15px $itemPadding;
         flex-direction: column;
         &.active{
           .icon-wrapper{
-            background: rgb(255, 166, 0);
+            background: $mainColor;
           }
           .tag-name{
-            color: rgb(255, 166, 0);
+            color: $mainColor;
           }
         }
         .icon-wrapper{
-          $iconHeight: 50px;
+          $iconHeight: 45px;
           $svgWH: 27px;
           background: #ccc9c9;display: flex;justify-content: center;align-items: center;
           width: $iconHeight;height: $iconHeight;border-radius: 50%;margin-bottom: 5px;
@@ -83,6 +86,7 @@
       }
     }
     .add-tag{
+      padding: 0px (#{$itemPadding + $space});
       span{
         color: #999;border-bottom:1px solid;padding-bottom: 3px;
       }

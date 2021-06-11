@@ -31,7 +31,6 @@
 <style lang="scss" scoped>
   .common-nav{
     display: flex;
-    height: 56px;
     flex-shrink: 0;
     box-shadow: 0px -2px 2px 1px #e5e5e5;
     a{

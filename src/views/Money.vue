@@ -62,7 +62,21 @@
 
 <style lang="scss">
   .money-content.content{
+    $navHeight: 56px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    .tags{
+      flex: auto;
+      overflow-y: auto;
+      .tag-list{
+        flex-grow: 1;
+        overflow: auto;
+      }
+    }
+    .tabs, .number-pad{
+      flex: none;
+      flex-shrink: 0;
+    }
   }
 </style>
