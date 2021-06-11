@@ -1,15 +1,18 @@
 <template>
   <layout classPrefix="statistics">
-    <tabs :data-source="moneyTypeTabs" :value.sync="moneyType"/>
+    <ul class="total-wrapper">
+      <li>支出: {{outputTotal}}</li>
+      <li>收入: {{inputTotal}}</li>
+    </ul>
     <ul class="record-list-wrapper" v-if="result.length > 0">
       <li v-for="(item, index) in result" :key="index">
-        <div class="title"><span>{{ addWeekStr(item.title) }}</span> <span>￥{{ item.total }}</span></div>
+        <div class="title"><span>{{ addWeekStr(item.title) }}</span> <span>￥{{ item.inTotal }}  {{item.outTotal}}</span></div>
         <div v-for="record in item.items" :key="record.id" class="item">
           <div>
             <span>{{ record.tags[0] || '无' }}</span>
             <span class="notes">{{ record.notes }}</span>
           </div>
-          <span>￥{{record.amount}}</span>
+          <span> {{record.type === '-' ? record.type : '' }}{{record.amount}}</span>
         </div>
       </li>
     </ul>
@@ -21,7 +24,7 @@
 
 /**
   第二种处理方法：
-  1. 先给数据进行排序，利用时间进行排序，处理时间用dayjs
+  1. 先给数据进行排序，利用时间进行排序，处理时间用window.dayjs
   2. 对排序好的数据进行分类 分类的数据结构
     [
       {
@@ -41,12 +44,12 @@
   import { Vue, Component } from 'vue-property-decorator'
   import Tabs from '@/components/Tabs.vue'
   import { moneyTypeTabs, weekCn } from '@/const'
-  import dayjs from 'dayjs'
   import { dataClone } from '@/libs/util'
 
   type ResultItem = {
     title: string,
-    total: number,
+    inTotal: number,
+    outTotal: number,
     items: RecordItem[]
   }
 
@@ -56,8 +59,10 @@
     }
   })
   export default class Statistics extends Vue{
-    moneyType = moneyTypeTabs[0].value
-    moneyTypeTabs = moneyTypeTabs
+    // moneyType = moneyTypeTabs[0].value
+    // moneyTypeTabs = moneyTypeTabs
+    outputTotal = 0
+    inputTotal = 0
     created() {
       this.$store.commit('fetchRecord')
     }
@@ -70,40 +75,76 @@
     //   const data = dataClone(this.recordList).filter(item => {
     //     return item.type === this.moneyType
     //   });
-    //   data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
+    //   data.sort((a, b) => window.dayjs(a.createTime).valueOf() - window.dayjs(b.createTime).valueOf())
 
     //   return data;
     // }
 
     get result() {
-      console.log(this.recordList, 111);
       if (this.recordList.length === 0) return [];
       const { formatTime } = this;
-      const data = dataClone(this.recordList).filter(item => item.type === this.moneyType)
+      const data = dataClone(this.recordList);
       if(data.length === 0) return [];
-      data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
+      // 先排序 后 归类
+      // 时间排序
+      data.sort((a, b) => window.dayjs(a.createTime).valueOf() - window.dayjs(b.createTime).valueOf())
 
-      const list:ResultItem[] = [{title: formatTime(data[0].createTime), total: data[0].amount, items:[data[0]]}]
+      const list:ResultItem[] = [{title: formatTime(data[0].createTime), inTotal: 0, outTotal: 0, items:[data[0]]}]
+      if(data[0].type === '-') {
+        list[0].outTotal += data[0].amount;
+        this.outputTotal += data[0].amount
+      }else {
+        list[0].inTotal += data[0].amount;
+        this.inputTotal += data[0].amount
+      }
+      // 按照天进行归类 ，桶排序 有则push 无则创建新的桶归类
       for(let i = 1; i < data.length; i++) {
         let currentItemTime = formatTime(data[i].createTime)
         if (currentItemTime === list[list.length -1].title) {
-          list[list.length -1].total += data[i].amount
+          if(data[i].type === '-') {
+            list[list.length -1].outTotal += data[i].amount;
+            this.outputTotal += data[i].amount
+            
+          }else {
+            list[list.length -1].inTotal += data[i].amount;
+        this.inputTotal += data[i].amount
+            
+          }
           list[list.length -1].items.push(data[i])
         } else {
-          list.push({title: currentItemTime, total: data[i].amount, items:[data[i]]})
+          list.push({title: currentItemTime, inTotal: 0,outTotal: 0, items:[data[i]]})
+          if(data[i].type === '-') {
+            list[list.length -1].outTotal += data[i].amount; 
+            this.outputTotal += data[i].amount
+
+          }else {
+            list[list.length -1].inTotal += data[i].amount; 
+            this.inputTotal += data[i].amount
+
+          }
         }
       }
 
       return list;
     }
 
+    computedTotal(item: ResultItem, data: RecordItem) {
+      if(data.type === '-') {
+        item.outTotal += data.amount;
+        this.outputTotal += data.amount
+      }else {
+        item.inTotal += data.amount;
+        this.inputTotal += data.amount
+      }
+    }
+
     formatTime(time: string) {
-      return dayjs(time).format('YYYY-MM-DD')
+      return window.dayjs(time).format('YYYY-MM-DD')
     }
 
     addWeekStr(day: string) {
-      let numDay = dayjs(day).day();
-      return dayjs().isSame(dayjs(day), 'day') ? `${day} （今天）` : `${day} （${weekCn[numDay]}）`;
+      let numDay = window.dayjs(day).day();
+      return window.dayjs().isSame(window.dayjs(day), 'day') ? `${day} （今天）` : `${day} （${weekCn[numDay]}）`;
     }
 
     get recordList(): RecordItem[] {
@@ -142,3 +183,5 @@
     }
   }
 </style>
+
+
