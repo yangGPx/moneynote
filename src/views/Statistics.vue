@@ -90,38 +90,16 @@
       data.sort((a, b) => window.dayjs(a.createTime).valueOf() - window.dayjs(b.createTime).valueOf())
 
       const list:ResultItem[] = [{title: formatTime(data[0].createTime), inTotal: 0, outTotal: 0, items:[data[0]]}]
-      if(data[0].type === '-') {
-        list[0].outTotal += data[0].amount;
-        this.outputTotal += data[0].amount
-      }else {
-        list[0].inTotal += data[0].amount;
-        this.inputTotal += data[0].amount
-      }
+      this.computedTotal(list[0], data[0])
       // 按照天进行归类 ，桶排序 有则push 无则创建新的桶归类
       for(let i = 1; i < data.length; i++) {
         let currentItemTime = formatTime(data[i].createTime)
         if (currentItemTime === list[list.length -1].title) {
-          if(data[i].type === '-') {
-            list[list.length -1].outTotal += data[i].amount;
-            this.outputTotal += data[i].amount
-            
-          }else {
-            list[list.length -1].inTotal += data[i].amount;
-        this.inputTotal += data[i].amount
-            
-          }
+          this.computedTotal(list[list.length -1], data[i])
           list[list.length -1].items.push(data[i])
         } else {
           list.push({title: currentItemTime, inTotal: 0,outTotal: 0, items:[data[i]]})
-          if(data[i].type === '-') {
-            list[list.length -1].outTotal += data[i].amount; 
-            this.outputTotal += data[i].amount
-
-          }else {
-            list[list.length -1].inTotal += data[i].amount; 
-            this.inputTotal += data[i].amount
-
-          }
+          this.computedTotal(list[list.length -1], data[i])
         }
       }
 
