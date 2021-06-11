@@ -29,13 +29,13 @@
 </script>
 
 <style lang="scss" scoped>
+@import '~@/assets/css/prefix.scss';
   .common-nav{
     display: flex;
     flex-shrink: 0;
     box-shadow: 0px -2px 2px 1px #e5e5e5;
     a{
       $defaultColor: #999;
-      $activeColor: #333;
       height: 100%;
       display: flex;
       flex-grow: 1;
@@ -46,8 +46,8 @@
       fill: $defaultColor;
       color: $defaultColor;
       &.active{
-        fill: $activeColor;
-        color: $activeColor;
+        fill: $mainColor;
+        color: $mainColor;
       }
     }
   }
