@@ -2,7 +2,6 @@
   <layout>
     <tabs :value.sync="recordType" :data-source="moneyTypeTabs"/>
     <div ref="chart" :style="styleList" class="chart-wrapper"></div>
-    {{ result }}
   </layout>
 </template>
 <script lang="ts">
@@ -87,21 +86,21 @@
       this.$nextTick(() => {
         this.chart = echarts.init(chart);
         this.chart.setOption({
-            title: {
-                text: 'ECharts 入门示例'
-            },
             tooltip: {
-              show: true,
+              trigger: 'axis',
+                triggerOn: 'mousemove',
+                alwaysShowContent: true,
+              position: (point) => {
+                return {left: point[0], top: -20}
+              }
             },
             xAxis: {
               type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
               type: 'value'
             },
             series: [{
-              data: [150, 230, 224, 218, 135, 147, 260],
               type: 'line'
             }]
         });
