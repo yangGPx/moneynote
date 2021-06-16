@@ -21,9 +21,10 @@
   @Component
   export default class CommonNav extends Vue{
     linkList: linkItem[] = [
+      {name: 'statistics', title: '统计'},
+      {name: 'chart', title: '图表'},
       {name: 'labels', title: '标签'},
       {name: 'money', title: '记一笔'},
-      {name: 'statistics', title: '统计'},
     ]
   }
 </script>

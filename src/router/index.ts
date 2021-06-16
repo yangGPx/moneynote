@@ -30,10 +30,15 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "statistics" */ '../views/Statistics.vue')
   },
   {
+    path: '/chart',
+    name: 'Chart',
+    component: () => import(/* webpackChunkName: "charts" */ '../views/chart.vue')
+  },
+  {
     path: '*',
     name: 'About',
     component: () => import(/* webpackChunkName: "notFound" */ '../views/NotFound.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({
