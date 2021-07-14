@@ -2,6 +2,7 @@
   <layout>
     <tabs :value.sync="recordType" :data-source="moneyTypeTabs"/>
     <div ref="chart" :style="styleList" class="chart-wrapper"></div>
+    123123212321123
   </layout>
 </template>
 <script lang="ts">
