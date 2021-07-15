@@ -18,7 +18,7 @@
   import { Component } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
   import MButton from '@/components/MButton.vue';
-  
+
   @Component({
     components: {
       ForumItem,
@@ -28,7 +28,7 @@
   export default class LabelEdit extends Vue{
     id?: string = undefined;
     get tag() {
-      return this.$store.state.currentTag;
+      return this.$store.state['tag'].currentTag;
     }
     goBack() {
       this.$router.back()
@@ -36,6 +36,8 @@
     editLabel(name: string) {
       if (name.trim().length === 0) return;
       if(this.id) {
+        console.log('editLabel');
+        
         this.$store.commit('updateTag', {
           id: this.id,
           name,
@@ -44,7 +46,7 @@
     }
     deleteTag() {
       if(this.id) {
-        this.$store.commit('deleteTag', this.id)
+        this.$store.commit('deleteTag', this.tag)
       }
     }
     created() {

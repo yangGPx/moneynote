@@ -1,5 +1,5 @@
 <template>
-  <svg>
+  <svg @click="$emit('click')">
     <use :xlink:href="`#${name}`"/>
   </svg>
 </template>
@@ -19,7 +19,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   svg{
     width: 20px;height: 20px;
     fill: inherit;

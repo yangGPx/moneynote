@@ -1,14 +1,14 @@
 <template>
   <layout classPrefix="money">
     <tags :data-source="tagList" :value.sync="record.tags"/>
-    <tabs :value.sync="record.type" :data-source="moneyTypeTabs"/>
+    <tabs :value.sync="record.type" :data-source="moneyTypeTabs" @change="changeTagType"/>
     <number-pad :value.sync="record.amount"
       :note.sync="record.notes"
       @submit="onSubmit"/>
   </layout>
 </template>
 <script lang="ts">
-  import { Vue, Component, Watch } from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
   import Tags from '@/components/money/Tags.vue';
   import Tabs from '@/components/Tabs.vue';
   import ForumItem from '@/components/ForumItem.vue';
@@ -25,7 +25,7 @@
     record: RecordItem = {
       tags: [],
       notes: '',
-      type: '-',
+      type: 'out',
       amount: 0,
       createTime: Date()
     };
@@ -33,10 +33,10 @@
     moneyTypeTabs = moneyTypeTabs
 
     get tagList() {
-      return this.$store.state.tagList;
+      return this.$store.state['tag'].tagList;
     }
     created() {
-      this.$store.commit('fetchTags')
+      this.$store.commit('fetchTags', this.record.type)
     }
     onSubmit(numPad: NumberPad): void {
       if (this.record.amount !== 0 && this.record.tags.length > 0) {
@@ -48,11 +48,15 @@
       }
     }
 
+    changeTagType(value: TagType) {
+      this.$store.commit('fetchTags', value)
+    }
+
     intRecord():void {
       this.record = {
         tags: [],
         notes: '',
-        type: '-',
+        type: 'out',
         amount: 0,
         createTime: Date()
       }

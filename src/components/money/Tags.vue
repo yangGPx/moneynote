@@ -10,23 +10,22 @@
         </span>
         <span class="tag-name">{{ item.name }}</span>
       </li>
+      <li @click="adminTag">
+        <span class="icon-wrapper"><icon name="setting"/></span>
+        <span class="tag-name">设置</span>
+      </li>
     </ul>
-    <div class="add-tag">
-      <span @click="addTag">新增标签</span>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import { Component, Prop } from 'vue-property-decorator'
-  import { mixins } from 'vue-class-component'
-  import { TagHandler } from '@/mixins'
 
   @Component
-  export default class Tags extends mixins(TagHandler){
-    @Prop({ default: [] }) dataSource!:string[];
-    @Prop({ default: [] }) value!: string[];
+  export default class Tags extends Vue{
+    @Prop({ default:() => ([]) }) dataSource!:string[];
+    @Prop({ default:() => ([]) }) value!: string[];
     
     toggle(input: string){
       // const index:number = this.value.indexOf(input);
@@ -42,6 +41,11 @@
       const index:number = this.value.indexOf(input);
       return index > -1;
     }
+    adminTag() {
+      this.$router.push({
+        path: '/labels'
+      })
+    }
   }
 </script>
 
@@ -50,8 +54,8 @@
 
   .tags{
     $space: 8px;
-    $itemPadding: 11px;
-    flex-grow: 1;padding: 16px 0;display: flex;
+    $itemPadding: 22px;
+    flex-grow: 1;padding: 16px 0;padding-top: 0; display: flex;
     flex-direction: column;justify-content: flex-end;
     background: #fff;
     .tag-list{
@@ -60,7 +64,6 @@
         display: inline-flex;
         text-align: center;
         border-radius: 24px;
-        margin: 0 $itemPadding 15px $itemPadding;
         flex-direction: column;
         &.active{
           .icon-wrapper{
@@ -74,7 +77,7 @@
           $iconHeight: 45px;
           $svgWH: 27px;
           background: #ccc9c9;display: flex;justify-content: center;align-items: center;
-          width: $iconHeight;height: $iconHeight;border-radius: 50%;margin-bottom: 5px;
+          width: $iconHeight;height: $iconHeight;border-radius: 50%;margin: $itemPadding; margin-bottom: 5px;
           ::v-deep svg{
             width: $svgWH;
             height: $svgWH;

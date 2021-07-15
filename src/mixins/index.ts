@@ -3,11 +3,13 @@ import Component from 'vue-class-component'
 
 @Component
 export class TagHandler extends Vue {
-    addTag(){
+    addTag(type: 'in' | 'out'= 'out'){
         let name = window.prompt('新增一个标签') || '';
         name = name.trim()
         if (name.length === 0) return;
-        this.$store.commit('createTag', name)
+        console.log({...{name, type}});
+        
+        this.$store.commit('createTag', {name, type})
         if (this.$store.state.createdTagFlag === 'success') {
             window.alert('创建标签成功')
         } else if(this.$store.state.createdTagFlag === 'duplicated'){

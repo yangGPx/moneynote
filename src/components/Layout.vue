@@ -21,17 +21,17 @@
 </script>
 
 <style lang="scss" scoped>
+  $navHeight: 56px;
   .layout{
-    $navHeight: 56px;
     display: flex;flex-direction: column;height: 100%;
-    .content{
-      height: calc(100% - #{$navHeight});
-      max-height: calc(100% - #{$navHeight});
-      flex-grow: 1;background: #e5e5e5;
-      overflow: hidden;
-    }
     ::v-deep .common-nav{
       height: $navHeight;
     }
+  }
+  .content{
+    height: calc(100% - #{$navHeight});
+    max-height: calc(100% - #{$navHeight});
+    flex-grow: 1;background: #e5e5e5;
+    overflow: hidden;
   }
 </style>

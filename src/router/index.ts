@@ -32,7 +32,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/chart',
     name: 'Chart',
-    component: () => import(/* webpackChunkName: "charts" */ '../views/chart.vue')
+    component: () => import(/* webpackChunkName: "charts" */ '../views/Chart.vue')
   },
   {
     path: '*',
