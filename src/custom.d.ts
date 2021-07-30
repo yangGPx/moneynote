@@ -4,7 +4,9 @@
     notes: string,
     type: TagType,
     amount: number,
-    createTime: string
+    recordDate: string,
+    recordCreateTime: string,
+
   } 
   type Tag = {
     id: number | string,
@@ -21,3 +23,9 @@
   }
 
   type TagType = 'in' | 'out';
+
+  type NumberPadValue = {
+    notes: string,
+    amount: number,
+    recordDate: string
+  }

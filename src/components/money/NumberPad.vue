@@ -3,11 +3,11 @@
     <date-picker
       ref="picker"
       type="date"
-      v-model="pickerValue">
+      v-model="pickerDate">
     </date-picker>
     <div class="input-wrapper">
       <forum-item field-name="备注"
-        :value="notes" @update:value="noteUpdate"
+        :value="data.notes" @update:value="noteUpdate"
         placeholder="点击此处填写备注"/>
       <span class="money-input"> {{ output }}</span>
     </div>
@@ -15,7 +15,9 @@
       <button>7</button>
       <button>8</button>
       <button>9</button>
-      <button @click.stop="showDate">pickerValue</button>
+      <button @click.stop="showDate">
+        <icon name="date" v-if="isToday"/> {{ isToday ? '今天' : pickerDateValue}}
+      </button>
       <button>4</button>
       <button>5</button>
       <button>6</button>
@@ -39,6 +41,7 @@
   import { Component, Prop } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
   import dayjs from 'dayjs'
+  import { dataClone } from '@/libs/util'
 
   @Component({
     components: {
@@ -47,18 +50,23 @@
     }
   })
   export default class NumberPad extends Vue{
-    @Prop({ default: 0 }) value!: number | undefined;
-    @Prop({ default: '' }) notes: string | undefined;
+    @Prop({ default: ()  => ({
+      notes: '',
+      amount: 0,
+      recordDate: Date(),
+    }) }) value!: NumberPadValue | undefined;
 
-    pickerValue = dayjs().format('YYYY-MM-DD');
-    output = `${this.value || 0}`;
+    data = dataClone(this.value) as NumberPadValue;
     popupVisiable = false;
-    noteOutput = '';
+    output = this.data.amount + '';
+    
+    pickerDate = dayjs(this.data.recordDate).format('YYYY-MM-DD')
+
     actionHanlder(event: MouseEvent){
       const target = event.target as HTMLButtonElement;
       const input:string = target.textContent || ''; // 这里得增加一个默认值，否则ts认为liEl.textContent 可能为null
-      
       const { output } = this;
+
       if((output === '0' && input === '0') || (output.includes('.') && input === '.')) {
         return;
       }
@@ -66,11 +74,11 @@
     }
 
     noteUpdate(value: string) {
-      this.noteOutput = value;
+      this.data.notes = value;
     }
 
     empty() {
-      this.output = '0'
+      this.output ='0'
     }
 
     delLastOne() {
@@ -79,18 +87,29 @@
     }
 
     okFn() {
-      this.$emit('update:note', this.noteOutput);
-      this.$emit('update:value', parseFloat(this.output));
+      this.$emit('update:value', {
+        ...this.data,
+        recordDate: this.pickerDate,
+        amount: parseFloat(this.output)
+      });
       this.$emit('submit', this);
+      this.$nextTick(() => {
+        this.pickerDate = dayjs(this.data.recordDate).format('YYYY-MM-DD')
+      })
     }
 
     showDate() {
       this.$refs.picker.open();
     }
 
-    created() {
-      this.noteOutput = this.notes || '';
+    get pickerDateValue() {
+      return dayjs(this.data.recordDate).format('YYYY/MM/DD')
     }
+
+    get isToday() {
+      return dayjs().isSame(dayjs(this.data.recordDate), 'day');
+    }
+
   }
 </script>
 
@@ -139,6 +158,9 @@
         }
         &.ok-key{
           height: $btnHeihgt * 2;float: right;
+        }
+        svg{
+          vertical-align: top;
         }
       }
     }

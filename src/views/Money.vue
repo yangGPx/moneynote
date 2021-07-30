@@ -2,8 +2,7 @@
   <layout classPrefix="money">
     <tags :data-source="tagList" :value.sync="record.tags"/>
     <tabs :value.sync="record.type" :data-source="moneyTypeTabs" @change="changeTagType"/>
-    <number-pad :value.sync="record.amount"
-      :note.sync="record.notes"
+    <number-pad :value.sync="numberPadValue"
       @submit="onSubmit"/>
   </layout>
 </template>
@@ -27,8 +26,15 @@
       notes: '',
       type: 'out',
       amount: 0,
-      createTime: Date()
+      recordDate: Date(),
+      recordCreateTime: Date(),
     };
+
+    numberPadValue:NumberPadValue ={
+      notes: '',
+      amount: 0,
+      recordDate: Date()
+    }
 
     moneyTypeTabs = moneyTypeTabs
 
@@ -39,6 +45,7 @@
       this.$store.commit('fetchTags', this.record.type)
     }
     onSubmit(numPad: NumberPad): void {
+      this.record = { ...this.record, ...this.numberPadValue }
       if (this.record.amount !== 0 && this.record.tags.length > 0) {
         this.$store.commit('createRecord', dataClone(this.record));
         this.intRecord();
@@ -58,7 +65,8 @@
         notes: '',
         type: 'out',
         amount: 0,
-        createTime: Date()
+        recordDate: Date(),
+        recordCreateTime: Date(),
       }
     }
   }

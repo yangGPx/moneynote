@@ -42,19 +42,19 @@
       let list = dataClone(this.recordList.filter((item) => item.type === this.recordType));
       let data: ResultItem[] = [];
       // 先排序 后归类
-      list.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
+      list.sort((a, b) => dayjs(a.recordDate).valueOf() - dayjs(b.recordDate).valueOf())
 
-      data[0] = { title: formatTime(list[0].createTime), total: list[0].amount, list: [list[0]] }
+      data[0] = { title: formatTime(list[0].recordDate), total: list[0].amount, list: [list[0]] }
 
       // n data的索引值
       for(let i = 1; i < list.length; i++) {
         let n = data.length - 1;
-        if (formatTime(list[i].createTime) === data[n].title && data[n] && data[n]) {
+        if (formatTime(list[i].recordDate) === data[n].title && data[n] && data[n]) {
           data[n].total += list[i].amount;
           data[n].list.push(list[i])
         }else {
           data.push({
-            title: formatTime(list[i].createTime),
+            title: formatTime(list[i].recordDate),
             total: list[i].amount,
             list: [list[i]]
           })

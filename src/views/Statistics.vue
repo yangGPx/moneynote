@@ -78,13 +78,13 @@
       if(data.length === 0) return [];
       // 先排序 后 归类
       // 时间排序
-      data.sort((a, b) => dayjs(a.createTime).valueOf() - dayjs(b.createTime).valueOf())
+      data.sort((a, b) => dayjs(a.recordDate).valueOf() - dayjs(b.recordDate).valueOf())
 
-      const list:ResultItem[] = [{title: formatTime(data[0].createTime), inTotal: 0, outTotal: 0, list:[data[0]]}]
+      const list:ResultItem[] = [{title: formatTime(data[0].recordDate), inTotal: 0, outTotal: 0, list:[data[0]]}]
       this.computedTotal(list[0], data[0])
       // 按照天进行归类 ，桶排序 有则push 无则创建新的桶归类
       for(let i = 1; i < data.length; i++) {
-        let currentItemTime = formatTime(data[i].createTime)
+        let currentItemTime = formatTime(data[i].recordDate)
         if (currentItemTime === list[list.length -1].title) {
           this.computedTotal(list[list.length -1], data[i])
           list[list.length -1].list.push(data[i])
