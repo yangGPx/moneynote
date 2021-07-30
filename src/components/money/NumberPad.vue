@@ -99,7 +99,8 @@
     }
 
     showDate() {
-      this.$refs.picker.open();
+      const picker = this.$refs.picker as any;
+      picker.open();
     }
 
     get pickerDateValue() {
