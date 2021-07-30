@@ -16,5 +16,5 @@ module.exports = {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     config.plugin('svg-sprite').use(require('svg-sprite-loader/plugin')), [{ pluginSprite: true }]//配置插件
     config.module.rule('svg').exclude.add(dir)//其他svg loader排除 icons目录
-  }
+  },
 }

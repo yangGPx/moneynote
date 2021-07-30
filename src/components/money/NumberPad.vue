@@ -1,5 +1,10 @@
 <template>
   <div class="number-pad">
+    <date-picker
+      ref="picker"
+      type="date"
+      v-model="pickerValue">
+    </date-picker>
     <div class="input-wrapper">
       <forum-item field-name="备注"
         :value="notes" @update:value="noteUpdate"
@@ -10,7 +15,7 @@
       <button>7</button>
       <button>8</button>
       <button>9</button>
-      <button @click.stop="delLastOne">删除</button>
+      <button @click.stop="showDate">pickerValue</button>
       <button>4</button>
       <button>5</button>
       <button>6</button>
@@ -21,25 +26,33 @@
       <button class="ok-key" @click.stop="okFn">OK</button>
       <button class="zero-key">0</button>        
       <button>.</button>        
+      <button @click.stop="delLastOne">删除</button>
+
     </div>
+
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { DatetimePicker } from 'mint-ui';
   import { Component, Prop } from 'vue-property-decorator'
   import ForumItem from '@/components/ForumItem.vue';
+  import dayjs from 'dayjs'
 
   @Component({
     components: {
       ForumItem,
+      DatetimePicker,
     }
   })
   export default class NumberPad extends Vue{
     @Prop({ default: 0 }) value!: number | undefined;
     @Prop({ default: '' }) notes: string | undefined;
 
+    pickerValue = dayjs().format('YYYY-MM-DD');
     output = `${this.value || 0}`;
+    popupVisiable = false;
     noteOutput = '';
     actionHanlder(event: MouseEvent){
       const target = event.target as HTMLButtonElement;
@@ -69,6 +82,10 @@
       this.$emit('update:note', this.noteOutput);
       this.$emit('update:value', parseFloat(this.output));
       this.$emit('submit', this);
+    }
+
+    showDate() {
+      this.$refs.picker.open();
     }
 
     created() {
@@ -119,9 +136,6 @@
         }
         &:nth-child(12){
           background: #b5b5b5;
-        }
-        &.zero-key{
-          width: 50%;
         }
         &.ok-key{
           height: $btnHeihgt * 2;float: right;
