@@ -1,9 +1,15 @@
 <template>
   <layout classPrefix="chart">
     <tabs :value.sync="recordType" :data-source="moneyTypeTabs"/>
-    <div ref="chart" :style="styleList" class="chart-wrapper"></div>
-    <div class="list">
+    <!-- <tabs :value.sync="dateType" :data-source="dataTimeTypes"/> -->
+    <div v-show="result.length > 0" ref="chart" :style="styleList" class="chart-wrapper"></div>
+    <div v-show="result.length > 0" class="list">
       <record-list :info="result"/>
+    </div>
+    <div v-show="result.length === 0" class="no-data">
+      <icon name="no_record"/><br />
+      哎呀呀，没有记账记录<br />
+      <router-link to="/money">记一笔</router-link>
     </div>
   </layout>
 </template>
@@ -37,9 +43,22 @@
 
     recordType = 'out';
 
+    // dateType = 'week'
+
+    // dataTimeTypes = [
+    //   {text: '周', value: 'week'},
+    //   {text: '月', value: 'month'},
+    // ]
+
+    // get xData() {
+    //   return 
+    // }
+
     get result(): ResultItem[] {
       if (this.recordList.length === 0) return [];
       let list = dataClone(this.recordList.filter((item) => item.type === this.recordType));
+      if (list.length === 0) return [];
+
       let data: ResultItem[] = [];
       // 先排序 后归类
       list.sort((a, b) => dayjs(a.recordDate).valueOf() - dayjs(b.recordDate).valueOf())

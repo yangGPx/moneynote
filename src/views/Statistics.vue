@@ -157,21 +157,5 @@
     }
   }
 </style>
-<style lang="scss">
-  .statistics-content{
-    display: flex;flex-direction: column;
-    .no-data{
-      $size: 80px;
-      line-height: 30px;padding-top: 200px;
-      height: 100%;font-size: 20px;background: #e9e9e9;text-align: center;
-      a{
-        color: #ffa600;
-      }
-      svg{
-        width: $size;height: $size;
-      }
-    }
-  }
-</style>
 
 
