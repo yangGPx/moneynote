@@ -59,7 +59,8 @@
     flex-direction: column;justify-content: flex-end;
     background: #fff;
     .tag-list{
-      padding: 0 $space;
+      padding: 0 $space;text-align: center;display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;grid-auto-rows: 95px;
+      overflow-x: hidden;
       li{
         display: inline-flex;
         text-align: center;

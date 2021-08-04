@@ -83,7 +83,7 @@
       overflow-y: auto;
       .tag-list{
         flex-grow: 1;
-        overflow: auto;
+        overflow-y: auto;
       }
     }
     .tabs, .number-pad{
